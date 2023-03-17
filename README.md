@@ -10,14 +10,52 @@
 
 
 
-El taller consiste en crear una aplicación web pequeña usando el micro-framework de Spark java (http://sparkjava.com/). Una vez tengamos esta aplicación procederemos a construir un container para docker para la aplicación y los desplegaremos y configuraremos en nuestra máquina local. Luego, cerremos un repositorio en DockerHub y subiremos la imagen al repositorio. Finalmente, crearemos una máquina virtual de en AWS, instalaremos Docker , y desplegaremos el contenedor que acabamos de crear.
+El taller consiste en crear una aplicación con la arquitectura propuesta y desplegarla en AWS usando EC2, ELB y autoescalado.
 
 Arquitectura:
 ![img.png](img/img.png)
 
 
+Se crearon las máquinas virtuales en AWS:
+![img_1.png](img_1.png)
+
+Se le agrega java con el comando 
+```
+sudo yum install java-17-amazon-corretto-devel
+```
+
+Se accede a las terminales de cada una
+Se corren los servicios:
+
+```
+java -cp target/classes:target/dependency/*ruta.archivo
+```
+Para entender mejor cual es cada una, en este ejemplo: 
+![img_9.png](img_9.png)
+
+![img_2.png](img_2.png)
+![img_3.png](img_3.png)
+![img_4.png](img_4.png)
+
+Instalacion de mongo:
+
+![img_5.png](img_5.png)
+
+Se accede y se pone a correr con el comando 
+```
+mongosh
+```
+![img_6.png](img_6.png)
+
+Prueba que corra en alguna:
+
+![img_7.png](img_7.png)
+
+Se verifica enviando un mensaje, enviando la peticion a una de las maquinas de LogService y que vallan cambiando (para verificar el funcionamiento del RoundRobin)
+![img_8.png](img_8.png)
+
 ### Instrucciones de uso
-Para poder usar el proyecto lo primero que debe realizar es clonar este repositorio utilizando el siguiente comando desde la terminal del SO que este utilizando:
+Para poder usar el proyecto lo primero que debe realizar es clonar este repositorio utilizando el siguiente comando desde la terminal del SO que esté utilizando:
 ```
 git clone https://github.com/JuanitaOramas/AREP_Tallerr_DockerAWS
 ```
@@ -44,7 +82,7 @@ Se debe verificar las versiones:
 Java - Desarrollo (backend)
 git - Sistema de control de versiones
 maven - Administrador de dependencias
-Docker - Docker version 4.0.1
+
 
 ```
 
@@ -72,38 +110,14 @@ Para visualizar de la aplicación  *http://localhost:35000* desde un navegador w
 ## Diseño
 Arquitectura cliente/servidor el cual realiza peticiones a una API que implementa el algoritmo RoundRobin.
 
-### Docker
-Para la creación de la imagen el archivo (Dockerfile) y con el siguiente comando construirla
-```
-docker build --tag dockersparkprimer .
-```
-para verificarla 
-
-```
-docker images
-```
-Se crean los contenedores y se verifican que esten corriendo con el comando
-
-```
-docker ps
-```
-
 ### AWS
 Creamos una instancia de Ec2
 ![img_3.png](img/img_3.png)
 
-Instalamos docker con 
-```
-sudo yum update -y
-sudo yum install docker
-```
-E iniciamos el servicio con
-```
-sudo service docker start
-```
+
 ---
 
-## Resultados:
+## Inicial:
 Pruebas:
 ![img_1.png](img/img_1.png)
 ![img_4.png](img/img_4.png)

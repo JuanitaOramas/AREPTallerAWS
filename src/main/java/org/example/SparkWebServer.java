@@ -10,25 +10,19 @@ import static spark.Spark.*;
 
 public class SparkWebServer {
 
-    public static void main(String... args){
+    static int count = 0;
+    static String[] urls = new String[] {"http://3.90.62.177:9000/mensajitos", "http://100.24.240.33:9000/mensajitos", "http://100.26.175.18:9000/mensajitos"};
+    public static void main(String... args) {
         staticFileLocation("/public");
         port(9000);
-
-        before((request, response) -> {
-            String path = request.pathInfo();
-            if (path.endsWith(".html")) {
-                try {
-                    byte[] bytes = Files.readAllBytes(Paths.get("public/" + path));
-                    String content = new String(bytes, StandardCharsets.UTF_8);
-                    // Modificar el contenido del archivo
-                    //content = content.replace("9001", "9002");
-                    response.body(content);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+        post("mensajitos", (req, resp)-> {
+            if (count > 2){count = 0;}
+            count +=1;
+            String consultarURL = urls[count];
+            return HTTPConnection.connection(consultarURL, req.body()) + consultarURL;
         });
 
-        get("hello", (req,res) -> "Hellooooooo!");
+
+
     }
 }
